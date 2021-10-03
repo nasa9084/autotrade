@@ -97,9 +97,9 @@ func (c *Client) GetBalance(ctx context.Context) ([]Balance, error) {
 	return balances, nil
 }
 
-// Ticker subscribe ticker channel using bitFlyer realtime API.
+// RealtimeTicker subscribe ticker channel using bitFlyer realtime API.
 // The productCode can be obtained from https://lightning.bitflyer.com/docs?lang=ja#%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%83%E3%83%88%E3%81%AE%E4%B8%80%E8%A6%A7
-func (c *Client) Ticker(ctx context.Context, productCode string) (chan Ticker, error) {
+func (c *Client) RealtimeTicker(ctx context.Context, productCode string) (chan Ticker, error) {
 	rpcc, err := jsonrpc.New(c.realtimeEndpoint)
 	if err != nil {
 		return nil, err
