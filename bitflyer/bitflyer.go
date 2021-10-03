@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/nasa9084/autotrade/bufferpool"
 	"github.com/nasa9084/autotrade/jsonrpc"
 )
 
@@ -170,10 +171,10 @@ func (c *Client) get(ctx context.Context, path string) (*http.Response, error) {
 }
 
 func (c *Client) post(ctx context.Context, path string, body interface{}) (*http.Response, error) {
-	var buf bytes.Buffer
-	if err := json.NewEncoder(&buf).Encode(body); err != nil {
+	buf := bufferpool.Get()
+	if err := json.NewEncoder(buf).Encode(body); err != nil {
 		return nil, fmt.Errorf("endoding request body to json: %w", err)
 	}
 
-	return c.request(ctx, http.MethodPost, path, &buf)
+	return c.request(ctx, http.MethodPost, path, buf)
 }
